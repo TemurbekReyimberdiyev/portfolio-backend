@@ -7,7 +7,17 @@ class SkillSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProjectSerializer(serializers.ModelSerializer):
+    # O'QISH UCHUN: to'liq skill ma'lumotlari
     skills = SkillSerializer(many=True, read_only=True)
+    
+    # YOZISH UCHUN: faqat ID lar (POST, PUT uchun)
+    skills_ids = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Skill.objects.all(),
+        source='skills',
+        write_only=True
+    )
+
     class Meta:
         model = Project
         fields = '__all__'
