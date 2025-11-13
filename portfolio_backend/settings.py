@@ -3,18 +3,19 @@ from pathlib import Path
 from decouple import config
 import dj_database_url
 
+# 🔹 Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # 🔐 Maxfiy sozlamalar .env fayldan olinadi
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
+# 🔹 Backend subdomain va Render default domeni
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'temurbekreyimberdiev.uz',
-    'www.temurbekreyimberdiev.uz',
-    'yourapp.onrender.com',  # Renderdagi subdomen
+    'api.temurbekreyimberdiev.uz',  # backend subdomain
+    'yourapp.onrender.com',          # Render default subdomain
 ]
 
 # 🔄 Django ilovalari
@@ -28,9 +29,10 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
-    'api',
+    'api',  # loyihadagi app
 ]
 
+# 🔑 REST Framework JWT sozlamasi
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -69,7 +71,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio_backend.wsgi.application'
 
-# 🗄️ Ma’lumotlar bazasi
+# 🗄️ Ma’lumotlar bazasi (PostgreSQL Render’dan)
 DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL'),
@@ -100,10 +102,12 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# 🌐 CORS (frontend bilan aloqa)
+# 🌐 CORS (frontend domen bilan aloqa)
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:3000",
+    "https://temurbekreyimberdiev.uz",       # frontend domain
+    "https://www.temurbekreyimberdiev.uz",  # frontend www variant
+    "http://localhost:5173",                 # lokal frontend
+    "http://127.0.0.1:3000",                 # lokal frontend
 ]
 
 # 🔑 Asosiy model kaliti
