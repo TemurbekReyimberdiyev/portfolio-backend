@@ -3,22 +3,18 @@ from pathlib import Path
 from decouple import config
 import dj_database_url
 
-# 🔹 Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# 🔐 Maxfiy sozlamalar .env fayldan olinadi
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-# 🔹 Backend subdomain va Render default domeni
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'api.temurbekreyimberdiev.uz',  # backend subdomain
-    'yourapp.onrender.com',          # Render default subdomain
+    'api.temurbekreyimberdiev.uz',
+    'yourapp.onrender.com',
 ]
 
-# 🔄 Django ilovalari
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -29,21 +25,13 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
-    'api',  # loyihadagi app
+    'api',
 ]
 
-# 🔑 REST Framework JWT sozlamasi
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-}
-
-# ⚙️ Middleware — Whitenoise static fayllar uchun
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # static fayllar uchun
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -71,13 +59,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio_backend.wsgi.application'
 
-# 🗄️ Ma’lumotlar bazasi (PostgreSQL Render’dan)
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL'),
-        conn_max_age=600
-    )
-}
+# 🗄️ Shartli ma’lumotlar bazasi
+if config('USE_POSTGRES', default=False, cast=bool):
+    # PostgreSQL (Render yoki masofiy server)
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL'),
+            conn_max_age=600
+        )
+    }
+else:
+    # Lokal SQLite
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # 🔑 Parol validatsiyasi
 AUTH_PASSWORD_VALIDATORS = [
@@ -87,28 +85,23 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# 🌍 Til va vaqt
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# 🧱 Static fayllar
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# 📁 Media fayllar
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# 🌐 CORS (frontend domen bilan aloqa)
 CORS_ALLOWED_ORIGINS = [
-    "https://temurbekreyimberdiev.uz",       # frontend domain
-    "https://www.temurbekreyimberdiev.uz",  # frontend www variant
-    "http://localhost:5173",                 # lokal frontend
-    "http://127.0.0.1:3000",                 # lokal frontend
+    "https://temurbekreyimberdiev.uz",
+    "https://www.temurbekreyimberdiev.uz",
+    "http://localhost:5173",
+    "http://127.0.0.1:3000",
 ]
 
-# 🔑 Asosiy model kaliti
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
