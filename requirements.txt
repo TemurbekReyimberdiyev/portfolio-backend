@@ -12,4 +12,4 @@ python-decouple==3.8
 sqlparse==0.5.3
 tzdata==2025.2
 whitenoise==6.11.0
-psycopg[binary]==3.4.3
+psycopg2-binary==2.9.7
