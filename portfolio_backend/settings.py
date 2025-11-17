@@ -99,8 +99,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CORS_ALLOWED_ORIGINS = [
+    "https://api.temurbekreyimberdiev.uz",
     "https://temurbekreyimberdiev.uz",
-    "https://www.temurbekreyimberdiev.uz",
     "http://localhost:5173",
     "http://127.0.0.1:3000",
 ]
