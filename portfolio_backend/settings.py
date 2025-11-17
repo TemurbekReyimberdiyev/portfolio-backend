@@ -13,6 +13,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'api.temurbekreyimberdiev.uz',
     'yourapp.onrender.com',
+    'portfolio-backend-production-d3b0.up.railway.app',  # Railway domeni
 ]
 
 INSTALLED_APPS = [
