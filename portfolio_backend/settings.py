@@ -11,6 +11,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = [
     'localhost',
+    "http://localhost:5173",
     '127.0.0.1',
     'api.temurbekreyimberdiev.uz',
     'temurbekreyimberdiev.uz',
@@ -20,6 +21,7 @@ ALLOWED_HOSTS = [
 
 # ❗ MUHIM: CSRF uchun trusted originlar
 CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
     'https://api.temurbekreyimberdiev.uz',
     'https://temurbekreyimberdiev.uz',
 ]
